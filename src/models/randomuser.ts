@@ -2,12 +2,13 @@ export interface IRandomuserResult {
   results: IUser[]
 }
 
-export interface IEditbleUserInfo extends Pick<IUser, 'id' 
+export interface IEditbleUserInfo extends Pick<IUser, 'login' 
                                                   | 'name' 
                                                   | 'email' 
                                                   | 'phone' 
                                                   | 'cell' 
-                                                  | 'dob' > {}
+                                                  | 'dob' > {
+  }
 
 export interface IUser {
   id: INamedValue
@@ -28,7 +29,7 @@ export interface IUser {
 
 interface IDateRange {
   age: number
-  date: string
+  date: Date
 }
 
 interface INamedValue {
@@ -47,7 +48,7 @@ interface ILocation {
   timezone: { description: string, offset: string }
 }
 
-interface ILoginInfo {
+export interface ILoginInfo {
   uuid: string
   username: string
   password: string
