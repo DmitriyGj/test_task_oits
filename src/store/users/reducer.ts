@@ -5,6 +5,7 @@ import { IUsersState } from './types'
 import { generate } from './thunks'
 
 import { editUser, deleteUser } from './actions'
+import moment from 'moment'
 
 const initialState: IUsersState = {
   fetching: false,
@@ -14,8 +15,13 @@ const initialState: IUsersState = {
 export const usersReducer = createReducer(initialState, builder =>
   builder
     .addCase(editUser, (state,{payload}) => {
-      const {login, ...rest} = payload;
+      const {login, dob,...rest} = payload;
       const {users} = state;
+
+      const {date, age} = dob;
+      console.log(Math.floor(moment().diff(date,'years',true)))
+      console.log(new Date(date).toISOString(), 'reducer')
+
       const indexOfUser = users.findIndex(user => user.login.uuid === login.uuid);
       users[indexOfUser] = {...users[indexOfUser], ...rest};
     })

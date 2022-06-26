@@ -17,14 +17,12 @@ export const UsersTable = ({ loading, users }: IUsersTableProps) => {
   const [ height, setTableHeight ] = useState(undefined);
   const [userForEdit, setUserForEdit] = useState<IUser>(null);
   const dispatch = useAppDispatch();
+
   const onCreate = useCallback((values: IEditbleUserInfo) => dispatch(editUser(values)) ,[])
   const onDelete = useCallback((login: ILoginInfo) => dispatch(deleteUser(login)),[]);
-  const columnsForTable = useMemo(() => [...columns, { title: '',
-                                      render: ({login}:IUser) => <a onClick={() => onDelete(login)}>Delete</a>}], [users,onDelete])
   
-  useEffect(() => {
-    console.log(userForEdit, 'table')
-  }, [userForEdit])
+  const columnsForTable = useMemo(() => [...columns, { title: '',
+        render: ({login}:IUser) => <a onClick={() => onDelete(login)}>Delete</a>}], [users,onDelete])
 
   const heighDelta = 39 // 39 - высота заголовка таблицы
   return ( <>
@@ -35,6 +33,7 @@ export const UsersTable = ({ loading, users }: IUsersTableProps) => {
           onRow={(user) => ({ onDoubleClick: () => setUserForEdit(user) })} />
       </div>
     </ResizeObserver>
+
     { userForEdit && <UserEditForm  visible={!!userForEdit} 
         onCreate={onCreate}
         onCancel={() => setUserForEdit(null)} 

@@ -1,9 +1,6 @@
 import { IUserEditFormProps } from './types';
 import React from 'react';
-import { DatePicker, Form, Input, Modal } from 'antd';
-import dayjs from 'dayjs';
-import { DelegatedPlugin } from 'webpack';
-import moment from 'moment';
+import { Form, Input, DatePicker, Modal } from 'antd';
 
 export const UserEditForm = ({visible, onCreate, onCancel, userInfo}: IUserEditFormProps) => {
   const [form] = Form.useForm();
@@ -57,9 +54,8 @@ export const UserEditForm = ({visible, onCreate, onCancel, userInfo}: IUserEditF
           <Form.Item  label = 'Date of birth'
                       name = {['dob','date']}
                       rules = {[{required: true, type:'date' }]}
-                      getValueProps = {(value) => ({value: value? moment(value): moment(new Date())})}
                       >
-              <DatePicker  />
+              <Input type='date'/>
           </Form.Item> 
         </Form>
       </Modal>)
