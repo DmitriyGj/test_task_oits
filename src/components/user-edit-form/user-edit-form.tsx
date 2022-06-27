@@ -1,8 +1,6 @@
 import { IUserEditFormProps } from './types';
 import React from 'react';
 import { DatePicker, Form, Input, Modal } from 'antd';
-import dayjs from 'dayjs';
-import { DelegatedPlugin } from 'webpack';
 import moment from 'moment';
 
 export const UserEditForm = ({visible, onCreate, onCancel, userInfo}: IUserEditFormProps) => {
@@ -10,17 +8,18 @@ export const UserEditForm = ({visible, onCreate, onCancel, userInfo}: IUserEditF
 
   return(<Modal visible={visible}
                 onCancel={onCancel}
+                okText='Сохранить'
                 onOk={() => {
                   form.validateFields()
                   .then(values => {
-                    onCreate({login:userInfo.login, ...values});
                     onCancel();
+                    onCreate({login:userInfo.login, ...values});
                   })
                 }}>
         <Form form={form} 
             initialValues={userInfo}>
           <Form.Item name='name'
-                      label='Name'>
+                      label='Имя'>
             <Input.Group compact>
               <Form.Item  name={['name','title']}
                         rules={[{required: true, message: 'Please fill the field'}]}
@@ -44,7 +43,7 @@ export const UserEditForm = ({visible, onCreate, onCancel, userInfo}: IUserEditF
                     rules={[{required: true, message: 'Please fill the field', type:'email'}]} >
               <Input  />
           </Form.Item>
-          <Form.Item label='Phone'
+          <Form.Item label='Телефон'
                     name='phone'
                     rules={[{required: true, message: 'Please fill the field correct'}]}>
               <Input  />
@@ -54,13 +53,14 @@ export const UserEditForm = ({visible, onCreate, onCancel, userInfo}: IUserEditF
                     rules={[{required: true, message: 'Please fill the field'}]}>
               <Input  />
           </Form.Item>
-          <Form.Item  label = 'Date of birth'
+          <Form.Item  label = 'Дата рождения'
                       name = {['dob','date']}
-                      rules = {[{required: true, type:'date' }]}
-                      getValueProps = {(value) => ({value: value? moment(value): moment(new Date())})}
+                      rules = {[{required: true }]}
+                      getValueFromEvent = {onchange => new Date(onchange).toISOString()}
+                      getValueProps = { (value) => ({value: value? moment(value): moment(new Date())}) }
                       >
               <DatePicker  />
-          </Form.Item> 
+          </Form.Item>      
         </Form>
       </Modal>)
 };

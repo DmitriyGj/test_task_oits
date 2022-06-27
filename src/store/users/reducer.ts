@@ -1,11 +1,9 @@
 import { createReducer } from '@reduxjs/toolkit'
+import moment from 'moment'
 
 import { IUsersState } from './types'
 
-import { generate } from './thunks'
-
-import { editUser, deleteUser } from './actions'
-import moment from 'moment'
+import { editUser, deleteUser, toggleFetcingStatus, setUsers, clearUsers } from './actions'
 
 const initialState: IUsersState = {
   fetching: false,
@@ -17,18 +15,22 @@ export const usersReducer = createReducer(initialState, builder =>
     .addCase(editUser, (state,{payload}) => {
       const {login, dob,...rest} = payload;
       const {users} = state;
+      const {date} = dob;
 
-      const {date, age} = dob;
-      console.log(Math.floor(moment().diff(date,'years',true)))
-      console.log(new Date(date).toISOString(), 'reducer')
+      const newAge = Math.floor(moment().diff(date,'years',true));
+      const newDate = new Date(date).toISOString().toString();
+
+      const newDob = {date: newDate, age: newAge};
 
       const indexOfUser = users.findIndex(user => user.login.uuid === login.uuid);
-      users[indexOfUser] = {...users[indexOfUser], ...rest};
+      users[indexOfUser] = {...users[indexOfUser],dob:newDob, ...rest};
     })
     .addCase(deleteUser, (state, {payload}) => {
       const {uuid} = payload;
       state.users = state.users.filter(user => user.login.uuid !== uuid)
     })
-    .addCase(generate.pending, (state) => {return({ ...state, fetching: true })})
-    .addCase(generate.fulfilled, (state, { payload }) => {return({ ...state, fetching: false, users: [ ...payload ] })})
-    .addCase(generate.rejected, (state, { payload }) => ({ ...state, fetching: false, users: [] })))
+
+    .addCase(clearUsers, (state) => ({...state, users: []}))
+    .addCase(toggleFetcingStatus, (state) => ({...state, fetching: !state.fetching}))
+    .addCase(setUsers, (state, {payload}) => ({...state, users:[...state.users,...payload]}))
+)

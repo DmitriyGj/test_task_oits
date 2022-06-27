@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState, useMemo } from 'react'
 import ResizeObserver from 'rc-resize-observer'
-import { Image, Table, TableColumnsType, Modal } from 'antd'
+import { Image, Table, TableColumnsType, Modal, Button } from 'antd'
 import dayjs from 'dayjs'
 
 import { UserEditForm } from '../user-edit-form/user-edit-form'
@@ -27,13 +27,12 @@ export const UsersTable = ({ loading, users }: IUsersTableProps) => {
   const heighDelta = 39 // 39 - высота заголовка таблицы
   return ( <>
     <ResizeObserver onResize={({ height: componentHeight }) => setTableHeight(Math.max(0, componentHeight - heighDelta))}>
-      <div className="users-table">
-        <Table size="small" loading={loading} dataSource={users} columns={columnsForTable}
-          scroll={{ y: height }} pagination={false} rowKey={keySelector}
-          onRow={(user) => ({ onDoubleClick: () => setUserForEdit(user) })} />
-      </div>
+        <div className="users-table">
+          <Table size="small" loading={loading} dataSource={users} columns={columnsForTable}
+            scroll={{ y: height }} pagination={false} rowKey={keySelector}
+            onRow={(user) => ({ onDoubleClick: () => setUserForEdit(user) })} />
+        </div>
     </ResizeObserver>
-
     { userForEdit && <UserEditForm  visible={!!userForEdit} 
         onCreate={onCreate}
         onCancel={() => setUserForEdit(null)} 

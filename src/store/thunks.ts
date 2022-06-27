@@ -6,7 +6,7 @@ import { setReady } from './application/actions'
 export const initApplication = createAsyncThunk(
   'initApplication',
   async (_: void, { dispatch }) => {
-    await dispatch(generate(20))
+    await dispatch(generate({needClear:false, count:20}))
     dispatch(setReady())
   }
 )
