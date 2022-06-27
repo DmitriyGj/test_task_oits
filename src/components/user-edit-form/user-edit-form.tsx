@@ -59,7 +59,7 @@ export const UserEditForm = ({visible, onCreate, onCancel, userInfo}: IUserEditF
                       getValueFromEvent = {onchange => new Date(onchange).toISOString()}
                       getValueProps = { (value) => ({value: value? moment(value): moment(new Date())}) }
                       >
-              <DatePicker  />
+              <DatePicker format={'DD MMMM YYYY'} />
           </Form.Item>      
         </Form>
       </Modal>)

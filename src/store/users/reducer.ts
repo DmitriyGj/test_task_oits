@@ -18,7 +18,7 @@ export const usersReducer = createReducer(initialState, builder =>
       const {date} = dob;
 
       const newAge = Math.floor(moment().diff(date,'years',true));
-      const newDate = new Date(date).toISOString().toString();
+      const newDate = date;
 
       const newDob = {date: newDate, age: newAge};
 
