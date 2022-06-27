@@ -29,7 +29,7 @@ export interface IUser {
 
 interface IDateRange {
   age: number
-  date: Date
+  date: string
 }
 
 interface INamedValue {
